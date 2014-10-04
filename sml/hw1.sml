@@ -55,8 +55,8 @@ fun what_month (n : int) =
     end;
 
 fun month_range (d1 : int,d2 : int) =
-    if d1 = d2
-    then [what_month d2]
+    if d1 > d2
+    then []
     else (what_month d1) :: (month_range (d1+1, d2));
 
 fun oldest (ds : (int*int*int) list) =
