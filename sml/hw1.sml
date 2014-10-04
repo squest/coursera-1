@@ -1,3 +1,4 @@
+(* Homework no 1 *)
 
 fun is_older (d1 : int*int*int, d2 : int*int*int) =
     let
@@ -7,26 +8,36 @@ fun is_older (d1 : int*int*int, d2 : int*int*int) =
 	dd1 < dd2
     end;
 
-fun is_even (i) = 0 = (i mod 2);
+fun dates_in_month (ds : (int*int*int) list, mo : int) =
+    if null ds
+    then []
+    else 
+	if (#2 (hd ds)) = mo
+	then (hd ds) :: dates_in_month (tl ds, mo)
+	else dates_in_month (tl ds, mo);
 
-fun filter f [] = []
-  | filter f (x::xs) =
-    if f x then x::(filter f xs) else filter f xs;
+fun append (ls1 , ls2) =
+    if null ls1
+    then ls2
+    else (hd ls1) :: append (tl ls1, ls2);
 
-fun sum (x::nil) = x
-  | sum (x::xs) = x + sum xs;
+fun dates_in_months (ds : (int*int*int) list, mos : int list) =
+    if null mos
+    then []
+    else append (dates_in_month (ds, hd mos),
+		 dates_in_months (ds, tl mos));
 
-fun number_in_month (ds, mo) =
-    let
-	fun month (x : int*int*int) = (#2 x) = mo
-    in
-	length (filter month ds)
-    end;
+fun number_in_month (ds, mo) = length (dates_in_month (ds, mo));
 
-fun number_in_months (ds, mos : int list) =
-    let
-	fun months mo = number_in_month (ds,mo)
-    in
-	sum (map months mos)
-    end;
+fun number_in_months (ds, mos) = length (dates_in_months (ds, mos));
+
+fun get_nth (ls, n) =
+    if n = 1
+    then hd ls
+    else get_nth (tl ls, n - 1);
+
+
+
+
+
 
