@@ -59,7 +59,10 @@ numcol n = helper n []
 
 palin3x3 = maximum [x*y| x <- [900..999], y <- [900..999], palin' (x*y)]
 
+pita1000 = [a*b*c | a <- [1..250], b <- [a..500],
+            let c = 1000 - b -a, a^2 + b^2 == c^2] 
 
+-- Problem no 9 using smart list comprehension 10ms
                                             
 
 
