@@ -88,29 +88,61 @@ divisors n
                        else helperEven n (succ i) (i: (div n i) : res)
           | otherwise = helperEven n (succ i) res
 
-divisors :: Int -> [Int]
-divisors 1 = [1]
-divisors 2 = [1,2]
-divisors n
-  | even n = helperEven n 3 [1,2,(div n 2),n]
-  | otherwise = helperOdd n 3 [1,n]
-  where helperOdd :: Int -> Int -> [Int] -> [Int]
+countDivs :: Int -> Int
+countDivs 1 = 1
+countDivs 2 = 2
+countDivs n
+  | even n = helperEven n 3 4
+  | otherwise = helperOdd n 3 2
+  where helperOdd :: Int -> Int -> Int -> Int
         helperOdd n i res
           | (i*i) > n = res
           | div' n i = if i == div n i
-                       then i : res
-                       else helperOdd n (i + 2) (i : (div n i) : res)
+                       then succ res
+                       else helperOdd n (i + 2) (2 + res)
           | otherwise = helperOdd n (i + 2) res
-        helperEven :: Int -> Int -> [Int] -> [Int]
+        helperEven :: Int -> Int -> Int -> Int
         helperEven n i res
           | (i * i) > n = res
           | div' n i = if i == div n i
-                       then i : res
-                       else helperEven n (succ i) (i: (div n i) : res)
+                       then succ res
+                       else helperEven n (succ i) (2 + res)
           | otherwise = helperEven n (succ i) res
 
+firstTriangle :: Int -> (Int, Int)
+firstTriangle lim = head $ dropWhile (\x -> (fst x) < lim) materials
+  where materials = map (\x -> (countDivs x, x)) $ map triangle [1..]
 
+-- Problem no 12 elapsed time 0.66 secs
 
+sumDivs :: Int -> Int
+sumDivs 1 = 0
+sumDivs 2 = 3
+sumDivs n
+  | even n = amicEven 
+  | otherwise = amicOdd
+  where amicEven = helperEven n 3 (2 + (div n 2) + 1)
+        amicOdd = helperOdd n 3 1
+        helperOdd :: Int -> Int -> Int -> Int
+        helperOdd n i res
+          | (i*i) > n = res
+          | div' n i = if i == div n i
+                       then i + res
+                       else helperOdd n (i + 2) (i + (div n i) + res)
+          | otherwise = helperOdd n (i + 2) res
+        helperEven :: Int -> Int -> Int -> Int
+        helperEven n i res
+          | (i * i) > n = res
+          | div' n i = if i == div n i
+                       then i + res
+                       else helperEven n (succ i) (i + (div n i) + res)
+          | otherwise = helperEven n (succ i) res
+
+amic' :: Int -> Bool
+amic' n = (n == sumDivs amics) && n /= amics
+  where amics = sumDivs n
+
+-- Problem no 21 => 0.03 secs
 
 
 
