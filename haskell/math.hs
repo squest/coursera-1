@@ -64,9 +64,50 @@ pita1000 = [a*b*c | a <- [1..250], b <- [a..500],
 
 -- Problem no 9 using smart list comprehension 10ms
                                             
+triangle :: Int -> Int
+triangle n = quot (n * (succ n)) 2
 
+divisors :: Int -> [Int]
+divisors 1 = [1]
+divisors 2 = [1,2]
+divisors n
+  | even n = helperEven n 3 [1,2,(div n 2),n]
+  | otherwise = helperOdd n 3 [1,n]
+  where helperOdd :: Int -> Int -> [Int] -> [Int]
+        helperOdd n i res
+          | (i*i) > n = res
+          | div' n i = if i == div n i
+                       then i : res
+                       else helperOdd n (i + 2) (i : (div n i) : res)
+          | otherwise = helperOdd n (i + 2) res
+        helperEven :: Int -> Int -> [Int] -> [Int]
+        helperEven n i res
+          | (i * i) > n = res
+          | div' n i = if i == div n i
+                       then i : res
+                       else helperEven n (succ i) (i: (div n i) : res)
+          | otherwise = helperEven n (succ i) res
 
-
+divisors :: Int -> [Int]
+divisors 1 = [1]
+divisors 2 = [1,2]
+divisors n
+  | even n = helperEven n 3 [1,2,(div n 2),n]
+  | otherwise = helperOdd n 3 [1,n]
+  where helperOdd :: Int -> Int -> [Int] -> [Int]
+        helperOdd n i res
+          | (i*i) > n = res
+          | div' n i = if i == div n i
+                       then i : res
+                       else helperOdd n (i + 2) (i : (div n i) : res)
+          | otherwise = helperOdd n (i + 2) res
+        helperEven :: Int -> Int -> [Int] -> [Int]
+        helperEven n i res
+          | (i * i) > n = res
+          | div' n i = if i == div n i
+                       then i : res
+                       else helperEven n (succ i) (i: (div n i) : res)
+          | otherwise = helperEven n (succ i) res
 
 
 
