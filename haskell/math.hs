@@ -2,6 +2,7 @@ module Math where
 
 import Data.List
 
+
 primeHelper :: Int -> Int -> Bool
 primeHelper p i
   | (i*i) > p = True
@@ -143,6 +144,7 @@ amic' n = (n == sumDivs amics) && n /= amics
   where amics = sumDivs n
 
 -- Problem no 21 => 0.03 secs
+
 
 
 
