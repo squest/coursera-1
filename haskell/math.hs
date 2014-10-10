@@ -1,7 +1,8 @@
 module Math where
 
 import Data.List
-
+import qualified Data.Set as Set
+import Data.Ord
 
 primeHelper :: Int -> Int -> Bool
 primeHelper p i
@@ -33,6 +34,10 @@ sumPrimes lim = helper 3 lim 2
 
 -- it stores the value of primes in memory for faster access next time
 primes = iterate nextPrime 2
+
+-- it returns all primes less than n
+primes_under :: Int -> [Int]
+primes_under n = takeWhile (n > ) primes
 
 div' :: (Integral t) => t -> t -> Bool
 div' a m = (0 == rem a m)
@@ -144,6 +149,83 @@ amic' n = (n == sumDivs amics) && n /= amics
   where amics = sumDivs n
 
 -- Problem no 21 => 0.03 secs
+
+distinct ls = map ( head . group . sort ) $ ls
+
+frequencies ls = map (\x -> (head x, length x)) $ (group.sort) $ ls
+
+check1 :: [(t,Int)] -> [(t,Int)]
+check1 ls = filter (\x -> (snd x) == 1) ls
+
+prob29 lim = Set.fromList [a^b| a <- [2..lim], b <- [2..lim]]
+
+collatz :: Int -> (Int,Int)
+collatz lim = maximumBy (comparing snd)  (map collas [1..lim])
+  where collas :: Int -> (Int, Int)
+        collas n = (n, colls n)
+        colls :: Int -> Int
+        colls n = if n == 1 then 1 else 1 + colls (calcol n)
+        calcol :: Int -> Int
+        calcol n = if even n then div n 2 else succ (3*n)
+
+sol24 sx = (sort $ permutations "0123456789") !! sx        
+
+sol30 :: Int -> Int
+sol30 x = sum (filter required' [1..x])
+  where sumfif :: Int -> Int
+        sumfif p = sum $ map (\x -> x^5) (numcol p)
+        required' :: Int -> Bool
+        required' i = (i == sumfif i)
+        
+colnum :: (Integral a) => [a] -> a
+colnum [] = 0
+colnum ls = helper ls 0
+  where helper (x:[]) res = x + res*10
+        helper (x:xs) res = helper xs (x + res*10)
+
+pandigital' ls = ( [1..9] == sort ls)
+ 
+sol32 lim = sum $ distinct [c| a <- [1..lim], b <- [1..lim], a /= b, let c = a*b,
+                            pandigital' $ (numcol a) ++ (numcol b) ++ (numcol c)]
+
+fact :: (Integral a) => a -> a
+fact 0 = 1
+fact n = product [1..n]
+
+fact' :: Int -> Bool
+fact' n = (n == sum (map fact (numcol n)))
+
+-- it returns all possible cycle of a number n
+circulars :: Int -> [Int]
+circulars n = map (colnum.cycleit) [0..pred $ length ncol]
+  where ncol = numcol n
+        cycleit i = (drop i ncol) ++ (take i ncol)
+
+-- it returns true if n is a circular prime
+circularPrime' :: Int -> Bool
+circularPrime' n
+  | filtered n = False
+  | otherwise = all prime' $ circulars n
+  where ncol = numcol n
+        filtered n = any existlah [0,2,4,5,6,8]
+        existlah l = elem l ncol
+
+sol35 lim = 2 + (length $ filter circularPrime' $ primes_under lim)
+
+-- it returns the binary representation of n in a list
+bincol :: Int -> [Int]
+bincol n = bhelper n []
+  where bhelper n res
+          | n < 2 = n : res
+          | otherwise = bhelper (div n 2) ((rem n 2) : res)
+
+-- it returns true if n is a palindrome in decimal and binary bases
+palin'' :: Int -> Bool
+palin'' n = ((ncol == reverse ncol) && (nbin == reverse nbin))
+  where ncol = numcol n
+        nbin = bincol n
+
+sol36 lim = sum $ filter palin'' [1..lim]
 
 
 
