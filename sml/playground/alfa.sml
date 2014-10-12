@@ -27,6 +27,12 @@ fun elem' p [] = false
     then true
     else elem' p xs;
 
+fun map_index f ls =
+    let fun helper i [] = []
+	  | helper i (x::xs) = (x,f x, i)::(helper (inc i) xs)
+    in
+	helper 0 ls
+    end;
 
 fun prime' (n:int) =
     let fun helper i =
