@@ -17,7 +17,6 @@ prime' p
   | even p = False
   | otherwise = primeHelper p 3
 
-
 -- it returns the first positive primes greater than x
 nextPrime :: Int -> Int
 nextPrime x
@@ -226,6 +225,8 @@ palin'' n = ((ncol == reverse ncol) && (nbin == reverse nbin))
         nbin = bincol n
 
 sol36 lim = sum $ filter palin'' [1..lim]
+
+
 
 
 

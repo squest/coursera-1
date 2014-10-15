@@ -10,4 +10,10 @@ main = mainWith myFun
           args <- getArgs
           case args of
             [input,output] -> intWith function input output
-            _ -> putStrln "error: bla bla bla"
+            _ -> putStrLn "error: bla bla bla"
+        myFun = reverse
+
+
+
+
+
