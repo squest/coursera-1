@@ -5,14 +5,16 @@ val inc = (fn i => i + 1);
 val dec = (fn i => i - 1);
 val sqr = (fn i => i * i);
 
+fun div' (n:int) (a:int) = 0 = (n mod a); 
 val even' = (fn x => div' x 2);
+
 
 val odd' = (fn x => not (even' x));
 
 fun expt a 0 = 1
   | expt a m = a * (expt a (dec m));
 
-fun div' (n:int) (a:int) =  0 = (n mod a);
+
 
 fun range i j =
     let fun incdec m =
@@ -50,10 +52,6 @@ fun map_index f ls =
     in
 	helper 0 ls
     end;
-
-fun gen_numbers lim =
-    map (fn x => {number = x, is_prime = (prime' x)})
-	(range 1 (inc lim));
 
 fun find_string x [] = NONE
   | find_string x ls =
