@@ -35,3 +35,43 @@ fun all_except_option (s:string, ls: string list) =
 	else SOME (rev (helper ls []))
     end;
 
+
+fun get_substitutions1 (ls : string list list, s:string) = 
+    let 
+	val res = mapPartial (fn l => all_except_option (s,l)) ls
+    in concat res
+    end;
+
+fun get_substitutions2 (ls : string list list, s:string) = 
+    let fun helper ls1 acc =
+	    case ls1 of
+		[] => acc
+	      | x::xs => case (all_except_option (s, x)) of
+			     NONE => helper xs acc
+			   | SOME a => helper xs (a::acc)
+    in concat (rev (helper ls []))
+    end;
+
+fun similar_names (ls : string list list,
+		   fullname : {first:string, middle:string,
+			       last:string}) =
+    let val subs = get_substitutions2 (ls, #first fullname)
+	fun helper lsub acc =
+	    case lsub of
+		[] => acc
+	      | x::xs => helper xs ({first=x, middle= #middle fullname
+				     , last = #last fullname} :: acc)
+    in
+	fullname :: (rev (helper subs []))
+    end;
+
+
+val sample1 = [["Fred","Fredrick"],["Elizabeth","Betty"],["Freddie","Fred","F"]];
+
+val sample2 = {first="Fred", middle="W", last="Smith"};
+
+
+
+
+
+
