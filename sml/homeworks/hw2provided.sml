@@ -11,8 +11,9 @@ open List;
 
 (* you may assume that Num is always used with values 2, 3, ..., 10
    though it will not really come up *)
+
 datatype suit = Clubs | Diamonds | Hearts | Spades
-datatype rank = Jack | Queen | King | Ace | Num of int 
+datatype rank = Jack | Queen | King | Ace | Num of int
 type card = suit * rank
 
 datatype color = Red | Black
@@ -21,7 +22,7 @@ datatype move = Discard of card | Draw
 exception IllegalMove
 
 (* put your solutions for problem 2 here *)
-
+	      
 fun all_except_option (s:string, ls: string list) =
     let val res = length (filter (fn n => same_string (s,n)) ls)
 	fun helper [] acc = acc
@@ -34,7 +35,19 @@ fun all_except_option (s:string, ls: string list) =
 	then NONE
 	else SOME (rev (helper ls []))
     end;
-
+	      
+(*
+fun all_except_option (s:string, ls: string list) =
+    let fun helper tls acc =
+	    case tls of
+		[] => acc
+	      | x::xs => if same_string (x,s)
+			 then (acc @ xs)
+			 else helper xs (acc @ [x])
+	val res = helper ls []
+    in if (length res) = 0 then NONE else SOME res	
+    end;
+*)
 
 fun get_substitutions1 (ls : string list list, s:string) = 
     let 
@@ -55,12 +68,13 @@ fun get_substitutions2 (ls : string list list, s:string) =
 fun similar_names (ls : string list list,
 		   fullname : {first:string, middle:string,
 			       last:string}) =
-    let val subs = get_substitutions2 (ls, #first fullname)
+    let val {first=fname, middle=mname,last =lname} = fullname
+	val subs = get_substitutions2 (ls, fname)
 	fun helper lsub acc =
 	    case lsub of
 		[] => acc
-	      | x::xs => helper xs ({first=x, middle= #middle fullname
-				     , last = #last fullname} :: acc)
+	      | x::xs => helper xs ({first=x, middle= mname
+				     , last = lname} :: acc)
     in
 	fullname :: (rev (helper subs []))
     end;
@@ -132,6 +146,40 @@ fun officiate (ics,ims,goal) =
 			=> if (sum_cards (x::hcs)) > goal
 			   then score ((x::hcs), goal)
 			   else runs xs ms (x::hcs)
+    in runs ics ims []
+    end;
+
+fun score_challenge (cs,goal) =
+    let val sum' = sum_cards cs
+	fun prelim x = if x > goal
+		       then 3 * (x - goal)
+		       else goal - x
+        val prelim' = prelim sum'
+	val tmp = filter (fn (ct,cr) => cr = Ace) cs
+	val sum'' = sum' - (10*(length tmp))
+	val prelim'' = prelim sum''
+	val real_prelim = if prelim' > prelim'' then prelim'' else prelim'
+    in
+        if all_same_color cs
+        then real_prelim div 2
+        else real_prelim
+    end;
+
+fun officiate_challenge (ics,ims,goal) =
+    let fun runs lcs lms hcs =
+            case lms of
+                [] => score_challenge (hcs,goal)
+              | m::ms =>
+                case m of
+                    Discard c
+                    => runs lcs ms (remove_card (hcs,c,IllegalMove))
+                  | Draw =>
+                    case lcs of
+                        [] => score_challenge (hcs,goal)
+                      | x::xs
+                        => if (sum_cards (x::hcs)) > goal
+                           then score_challenge ((x::hcs), goal)
+                           else runs xs ms (x::hcs)
     in runs ics ims []
     end;
 				      

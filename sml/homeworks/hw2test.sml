@@ -8,8 +8,6 @@ use "hw2provided.sml";
 
 val test1 = all_except_option("string", ["string"]) = SOME [];
 
-
-
 val test2 = get_substitutions1([["foo"],["there"]], "foo") = []
 
 val sample1 = [["Fred","Fredrick"],["Elizabeth","Betty"],["Freddie","Fred","F"]];
@@ -59,7 +57,7 @@ val test10a = score([(Hearts, Num 2),(Clubs, Num 4), (Spades, Ace)],10
 		   ) = 21
 
 val test10b = score([(Spades, Num 2),(Clubs, Num 4),
-		     (Spades,Ace)],30) = 8
+		     (Spades,Ace)],30) = 6
 
 val test10c = score([(Hearts, Num 2)], 15)
 
@@ -68,7 +66,7 @@ val test11 = officiate([(Hearts, Num 2),(Clubs, Num 4)],[Draw], 15) =
 
 val test11a = officiate([(Hearts, Num 2),(Clubs, Num 4)],[Draw], 15)
 
-(*
+
 val test12 = officiate([(Clubs,Ace),(Spades,Ace),(Clubs,Ace),(Spades,Ace)],
                        [Draw,Draw,Draw,Draw,Draw],
                        42)
@@ -80,4 +78,31 @@ val test13 = ((officiate([(Clubs,Jack),(Spades,Num(8))],
                false) 
               handle IllegalMove => true)
              
-*)
+
+
+val test11b = officiate_challenge([(Hearts, Num 2),(Clubs, Num 4)]
+				 ,[Draw], 15) = 6
+
+val res11b = officiate_challenge([(Hearts, Num 2),(Clubs, Num 4)]
+				 ,[Draw], 15)
+
+val test11c = officiate_challenge([(Hearts, Num 2),(Clubs, Num 4)],[Draw], 15)
+
+
+val test12a = officiate_challenge([(Clubs,Ace),(Spades,Ace),(Clubs,Ace),(Spades,Ace)],
+                       [Draw,Draw,Draw,Draw,Draw],
+                       42)
+             = 3
+
+
+val test12b = officiate_challenge([(Clubs,Ace),(Spades,Ace),(Clubs,Ace),(Spades,Ace)],
+                       [Draw,Draw,Draw,Draw,Draw],
+                       42)
+             = 3
+
+val test13a = ((officiate_challenge([(Clubs,Jack),(Spades,Num(8))],
+                         [Draw,Discard(Hearts,Jack)],
+                         42);
+               false) 
+              handle IllegalMove => true)
+
