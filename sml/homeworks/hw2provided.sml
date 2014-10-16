@@ -70,6 +70,23 @@ val sample1 = [["Fred","Fredrick"],["Elizabeth","Betty"],["Freddie","Fred","F"]]
 
 val sample2 = {first="Fred", middle="W", last="Smith"};
 
+fun card_color ((cs:suit, cr:rank)) =
+    case cs of
+	Hearts => Red
+      | Diamonds => Red
+      | Spades => Black
+      | Clubs => Black;
+
+fun card_value ((cs:suit, cr:rank)) =
+    case cr of
+	Jack => 10
+      | Queen => 10
+      | King => 10
+      | Ace => 11
+      | Num a => a;
+
+
+
 
 
 
