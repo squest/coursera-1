@@ -65,11 +65,6 @@ fun similar_names (ls : string list list,
 	fullname :: (rev (helper subs []))
     end;
 
-
-val sample1 = [["Fred","Fredrick"],["Elizabeth","Betty"],["Freddie","Fred","F"]];
-
-val sample2 = {first="Fred", middle="W", last="Smith"};
-
 fun card_color ((cs:suit, cr:rank)) =
     case cs of
 	Hearts => Red
@@ -113,13 +108,38 @@ fun sum_cards cs =
 
 fun score (cs,goal) =
     let val sum' = sum_cards cs
-    in if all_same_color cs
-       then sum' div 2
-       else if sum' > goal
-       then 3 * (sum' -goal)
-       else goal - sum'
+	val prelim = if sum' > goal
+		     then 3 * (sum' -goal)
+		     else goal - sum'
+    in
+	if all_same_color cs
+	then prelim div 2
+	else prelim
     end;
+
+fun officiate (ics,ims,goal) =
+    let fun runs lcs lms hcs =
+	    case lms of
+		[] => score (hcs,goal)
+	      | m::ms =>
+		case m of
+		    Discard c
+		    => runs lcs ms (remove_card (hcs,c,IllegalMove))
+		  | Draw =>
+		    case lcs of
+			[] => score (hcs,goal)
+		      | x::xs
+			=> if (sum_cards (x::hcs)) > goal
+			   then score ((x::hcs), goal)
+			   else runs xs ms (x::hcs)
+    in runs ics ims []
+    end;
+				      
+						       
+						       
+			     
     
+
 
 
 
