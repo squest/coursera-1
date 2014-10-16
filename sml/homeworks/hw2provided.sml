@@ -85,9 +85,34 @@ fun card_value ((cs:suit, cr:rank)) =
       | Ace => 11
       | Num a => a;
 
+fun remove_card (cs:card list, c:card, e) =
+    let fun helper lcs acc =
+	    case lcs of
+		[] => raise e
+	      | l::ls => if l = c
+			 then acc @ ls
+			 else helper ls (acc @ [l])
+    in helper cs []
+    end;
+
+fun all_same_color ls =
+    case ls of
+	[] => true
+      | c::[] => true
+      | c::cs => let val tmp = card_color c
+		 in all (fn x => tmp = card_color x) cs
+		 end;
+
+fun sum_cards cs =
+    let fun helper ls acc =
+	    case ls of
+		[] => acc
+	      | l::lcs => helper lcs (acc + (card_value l))
+    in helper cs 0
+    end;
 
 
-
+    
 
 
 

@@ -33,13 +33,26 @@ val test4 = similar_names
 val test5 = card_color((Clubs, Num 2)) = Black
 
 val test6 = card_value((Clubs, Num 2)) = 2
-(*
-val test7 = remove_card([(Hearts, Ace)], (Hearts, Ace), IllegalMove) = []
+
+val test7 = remove_card([(Hearts, Ace)], (Hearts, Ace), IllegalMove)
+	    = []
 
 val test8 = all_same_color([(Hearts, Ace), (Hearts, Ace)]) = true
 
+val test8a = all_same_color([(Hearts, Ace)]) = true
+
+val test8b = all_same_color([]) = true
+
+val test8c = all_same_color([(Hearts, Ace), (Spades, Ace)]) = false
+
+
 val test9 = sum_cards([(Clubs, Num 2),(Clubs, Num 2)]) = 4
 
+val test9a = sum_cards([(Clubs, Num 2),(Clubs, Jack)]) = 12
+
+val test9b = sum_cards([(Clubs, Num 2),(Clubs, Ace), (Hearts, Queen)]) = 23
+
+(*
 val test10 = score([(Hearts, Num 2),(Clubs, Num 4)],10) = 4
 
 val test11 = officiate([(Hearts, Num 2),(Clubs, Num 4)],[Draw], 15) = 6
