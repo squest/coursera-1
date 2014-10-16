@@ -111,7 +111,14 @@ fun sum_cards cs =
     in helper cs 0
     end;
 
-
+fun score (cs,goal) =
+    let val sum' = sum_cards cs
+    in if all_same_color cs
+       then sum' div 2
+       else if sum' > goal
+       then 3 * (sum' -goal)
+       else goal - sum'
+    end;
     
 
 
