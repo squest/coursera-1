@@ -42,17 +42,37 @@ val test4h = longest_string4 ["A","bc","C"] = "bc";
 val test4i = longest_string4 sam2a = "fiska";
 val test4j = longest_string4 sam2b = "";
 val test4l = longest_string4 sam3c = "chandlep";
-(*
+
+val sam5a = ["william","Like","helllllllooo","Bas"];
+val sam5b = [];
+val sam5c = ["Fooking","Fuuking","hell","Yeah"];
 val test5 = longest_capitalized ["A","bc","C"] = "A";
+val test5a = longest_capitalized sam5a = "Like";
+val test5b = longest_capitalized sam5b = "";
+val test5c = longest_capitalized sam5c = "Fooking";
+
 
 val test6 = rev_string "abc" = "cba";
+val test6a = rev_string "dodol" = "lodod";
+val test6b = rev_string "" = "";
 
-val test7 = first_answer (fn x => if x > 3 then SOME x else NONE) [1,2,3,4,5] = 4
 
-val test8 = all_answers (fn x => if x = 1 then SOME [x] else NONE) [2,3,4,5,6,7] = NONE
+
+val test7 = first_answer (fn x => if x > 3 then SOME x else NONE)
+			 [1,2,3,4,5] = 4;
+
+val test8 = all_answers (fn x => if x = 1 then SOME [x] else NONE)
+			[2,3,4,5,6,7] = NONE;
+
+val test8a = all_answers (fn x => if x < 5 then SOME [x] else NONE)
+                         [2,3,4,5,6,7] = SOME [2,3,4];
+
+val test8b = all_answers (fn x => if x < 5 then SOME [x] else NONE)
+                         [] = SOME [];
+
 
 val test9a = count_wildcards Wildcard = 1
-
+(*
 val test9b = count_wild_and_variable_lengths (Variable("a")) = 1
 
 val test9c = count_some_var ("x", Variable("x")) = 1;

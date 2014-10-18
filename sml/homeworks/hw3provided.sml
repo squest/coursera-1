@@ -2,33 +2,8 @@
 
 open List;
 
-
-
 exception NoAnswer
 
-datatype pattern = Wildcard
-		 | Variable of string
-		 | UnitP
-		 | ConstP of int
-		 | TupleP of pattern list
-		 | ConstructorP of string * pattern
-
-datatype valu = Const of int
-	      | Unit
-	      | Tuple of valu list
-	      | Constructor of string * valu
-
-fun g f1 f2 p =
-    let 
-	val r = g f1 f2 
-    in
-	case p of
-	    Wildcard          => f1 ()
-	  | Variable x        => f2 x
-	  | TupleP ps         => List.foldl (fn (p,i) => (r p) + i) 0 ps
-	  | ConstructorP(_,p) => r p
-	  | _                 => 0
-    end
 
 (**** for the challenge problem only ****)
 
@@ -78,6 +53,66 @@ val longest_string3 =
 
 val longest_string4 =
     longest_string_helper (fn (x,y) => x >= y);
+
+val longest_capitalized = (longest_string1 o only_capitals);
+val explode = String.explode;
+val implode = String.implode;
+
+val rev_string = (implode o rev o explode);
+
+fun first_answer f ls =
+    case ls of
+	[] => raise NoAnswer
+      | x::xs => case f x of
+		     NONE => first_answer f xs
+		   | SOME v => v;
+
+fun all_answers f ls =
+    let fun helper ls acc =
+	    case ls of
+		[] => if null acc then NONE else SOME acc
+	      | x::xs => case f x of
+			     NONE => helper xs acc
+			   | SOME v => helper xs (acc @ v)
+    in if null ls then SOME [] else helper ls []
+    end;
+
+
+datatype pattern = Wildcard
+                 | Variable of string
+                 | UnitP
+                 | ConstP of int
+                 | TupleP of pattern list
+                 | ConstructorP of string * pattern
+
+datatype valu = Const of int
+              | Unit
+              | Tuple of valu list
+              | Constructor of string * valu
+
+fun g f1 f2 p =
+    let 
+        val r = g f1 f2 
+    in
+        case p of
+            Wildcard          => f1 ()
+          | Variable x        => f2 x
+          | TupleP ps         => List.foldl (fn (p,i) => (r p) + i) 0 ps
+          | ConstructorP(_,p) => r p
+          | _                 => 0
+    end;
+
+fun count_wildcards p = g (fn x => 1) (fn x => 0) p
+
+
+    
+
+		  
+
+
+
+
+
 
 
 
