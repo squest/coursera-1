@@ -28,3 +28,19 @@ numcol n
   | otherwise = (numcol $ div n 10) ++ [mod n 10]
 
 gabung lim = foldl1 (++) $ map numcol [1..lim]
+
+div' :: Int -> Int -> Bool
+div' a b = (mod a b) == 0
+
+add2 x = x + 2
+
+prime' n
+  | n == 1 = False
+  | n == 2 = True
+  | even n = False
+  | otherwise = if (length primeHelper) == 0 then True else False
+  where primeHelper = filter (\x -> div' n x) [3,5..(pred n)]
+
+
+
+

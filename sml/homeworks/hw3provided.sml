@@ -104,6 +104,20 @@ fun g f1 f2 p =
 
 fun count_wildcards p = g (fn x => 1) (fn x => 0) p;
 
+fun count_wild_and_variable_lengths p =
+    let val wild = count_wildcards p
+    in
+	wild + (g (fn x => 1) String.size p)
+    end;
+
+fun count_some_var (s,p) =
+    let fun count_helper x = if x = s then 1 else 0
+    in
+	g (fn x => 1) count_helper p
+    end;
+
+
+    
 
     
 
