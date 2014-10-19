@@ -102,7 +102,7 @@ fun g f1 f2 p =
           | _                 => 0
     end;
 
-fun count_wildcards p = g (fn x => 1) (fn x => 0) p
+fun count_wildcards p = g (fn x => 1) (fn x => 0) p;
 
 
     

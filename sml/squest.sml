@@ -14,8 +14,6 @@ val odd' = (fn x => not (even' x));
 fun expt a 0 = 1
   | expt a m = a * (expt a (dec m));
 
-
-
 fun range i j =
     let fun incdec m =
 	    if m < j then inc m else dec m

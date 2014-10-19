@@ -33,14 +33,16 @@ inversion (x:xs) = res + (length (filter (< x) xs))
   where res = inversion xs
 
 main = do
-  f <- readFile "IntegerArray.txt"
+  f <- readFile "raw.txt"
   let x = take 100000 $ fmap init $ lines f
   let y = map (\s -> map digitToInt s) x
   let z = map colnum y
   let a = inversion z
   return a
 
-"Elapsed time 202 sec"
+-- "Elapsed time 202 sec" answer:2407905288
                
   
       
+
+

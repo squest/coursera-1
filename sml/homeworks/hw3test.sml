@@ -70,8 +70,8 @@ val test8a = all_answers (fn x => if x < 5 then SOME [x] else NONE)
 val test8b = all_answers (fn x => if x < 5 then SOME [x] else NONE)
                          [] = SOME [];
 
+val test9a = count_wildcards Wildcard = 1;
 
-val test9a = count_wildcards Wildcard = 1
 (*
 val test9b = count_wild_and_variable_lengths (Variable("a")) = 1
 
