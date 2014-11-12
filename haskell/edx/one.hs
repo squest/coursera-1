@@ -23,20 +23,18 @@ qsort' xs = qsort larger ++ qsort smaller ++ [x]
         smaller = [n|n<-xs, n <= x]
         larger = [n|n <- xs, n > x]
 
+mult = \x -> (\y -> (\z -> x * y * z))
 
-      
-qsort [] = []
-qsort (x:xs) = reverse (reverse (qsort smaller) ++ [x] ++ reverse (qsort larger))
-  where smaller = [n|n<-xs, n <= x]
-        larger = [n|n<-xs, n > x]
+sqr x = x * x
+cube x = x * x * x
 
 
 
-qsort [] = []
-qsort xs = x : qsort larger ++ qsort smaller
-  where x = maximum xs
-        smaller = [n|n<-xs, n < x]
-        larger = [n|n<-xs, n >= x]
+
+
+
+
+
 
 
 
