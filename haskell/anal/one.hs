@@ -13,7 +13,8 @@ merge' (a:as) (b:bs) res
 msort [] = []
 msort ls
   | lls == 1 = ls
-  | odd lls = merge' (msort (take (succ dls) ls)) (msort (drop (succ dls) ls)) []
+  | odd lls = merge' (msort (take (succ dls) ls))
+              (msort (drop (succ dls) ls)) []
   | even lls = merge' (msort (take dls ls)) (msort (drop dls ls)) []
   where lls = length ls
         dls = div lls 2
@@ -32,15 +33,23 @@ inversion (x: []) = 0
 inversion (x:xs) = res + (length (filter (< x) xs))
   where res = inversion xs
 
-main = do
-  f <- readFile "IntegerArray.txt"
-  let x = take 100000 $ fmap init $ lines f
-  let y = map (\s -> map digitToInt s) x
-  let z = map colnum y
-  let a = inversion z
-  return a
+sum_primes :: Int -> Int
+sum_primes lim = looper 3 2
+  where looper p res
+          | p > lim = res
+          | prime 3 = looper (p+2) (res + p)
+          | otherwise = looper (p+2) res
+          where prime i
+                  | i*i > p = True
+                  | 0 == rem p i = False
+                  | otherwise = prime $ i + 2
 
-"Elapsed time 202 sec"
+
+main = do
+  raw <- readFile "IntegerArray.txt"
+  let a = take 10 $ map (\x -> read x :: Int) $ words raw
+  putStrLn $ show a
+
                
   
       
