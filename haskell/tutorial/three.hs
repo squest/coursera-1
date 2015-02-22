@@ -48,3 +48,21 @@ sieve lim = looper 1 [(1,False), (2,True)]
 primes :: [Int]
 primes = 2 : filter (\x -> not (any (\y -> 0 == rem x y) $ tmp x)) [3,5..]
   where tmp i = takeWhile (\x -> x*x <= i) primes
+
+fibo :: Int -> Integer
+fibo = (map fib [0..] !!)
+  where fib 0 = 0
+        fib 1 = 1
+        fib n = fibo (n-1) + fibo (n-2)
+
+euler25 :: Integer -> Int
+euler25 lim = length $ takeWhile (< lim) (map fibo [0..])
+
+lim = 10^999
+
+fiboLim :: Integer -> Int
+fiboLim lim = looper 1 0 1
+  where looper a b i = if a > lim then i else looper (a+b) a (succ i)
+
+
+
